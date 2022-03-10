@@ -1,13 +1,23 @@
 from simple_chalk import *
 
-login = True
+login = bool(input(red("Login > ")))
 
-userName = "theyoungest.camel"
-userName.split()
+userName = input(green("Username > "))
+
+def pad(string, max_, paddingChar=" "):
+    max_=int(max_)
+    if len(string) > max_:
+        string = string[0:max_]
+    elif len(string) < max_:
+        padding = max_ - len(string)
+        for i in range(0,padding):
+            string += " "
+    return string
+
 if login == False:
     loginStatus = red("Log In       L")
 else:
-    loginStatus = userName[0,10] + "  A"
+    loginStatus = pad(userName, 11) + "  A"
     loginStatus = yellow(loginStatus)
 
 

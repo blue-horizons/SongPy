@@ -1,18 +1,28 @@
 import csv
-import random
-from simple_chalk import *
 import os
 import platform
+import random
 import sqlite3
+from getpass import getpass, getuser
+
+os.system("pip install simple_chalk && clear")
+from simple_chalk import *
 
 # # Open songList file
 SONG_CSV = open("songs.csv", "r")
-songFile = songFile.readlines()
+songFile = SONG_CSV.readlines()
+
+if platform.system().lower()== "linux" or platform.system().lower()=="Darwin":
+    clear = "clear"
+else:
+    clear = "cls"
+
 run = True
 login = False
+menu = True
 diffuculty = 1 # Default Difficulty
 
-accountDB = open("accouts.sql","r")
+accountDB = open("accounts.sql","r")
 
 
 def setGuess(songList):
@@ -30,32 +40,83 @@ def setGuess(songList):
         i += 1
     return ques1
 
+def errorScreen(errorNumber):
+    os.system(clear)
+    print(f"""
+ __________________
+| ________________ |""")
+print("||" + red("ERROR: {errorNumber}")+ """       ||
+||        !       ||
+||      #~~#      ||
+||                ||
+||                ||
+||________________||
+| jpod             |
+|       ______     |
+|      /\    /\    |
+|     /  \__/  \   |
+|    |   /  \   |  |
+|    |   \__/   |  |
+|     \  /  \  /   |
+|      \/____\/    |
+|                  |
+|__________________|
+""")
+
+def pad(string, max_, paddingChar=" "):
+    max_=int(max_)
+    if len(string) > max_:
+        string = string[0:max_]
+    elif len(string) < max_:
+        padding = max_ - len(string)
+        for i in range(0,padding):
+            string += " "
+    return string
+
+def login():
+    username = getuser()
+    if username in row[0] == False:
+        errorScreen(1)
+    else:
+        menu = True
+        loginStatus = username
+
+
+
+
 while menu:
     if login == False:
-        loginStatus = "Log In        "
-    if platform.system().lower()== "linux" or platform.system().lower()=="Darwin":
-        os.system("clear")
+        loginStatus = "Log In     "
+    os.system(clear)
+
+    login()
+
+    if login == False:
+        loginStatus = red("Log In       L")
     else:
-        os.system("cls")
-    print(f"""
- ___________________
-| _________________ |
-||""" + "green( New Game      N )" +"""||
-||                 ||
-||""" + blue(f" Difficulty {diffuculty}  D") + """ ||
-||                 ||
-|| """ + {loginStatus} L ||
-||_________________||
-| jPod              |
-|      _______      |
-|     /\     /\     |
-|    /  \___/  \    |
-|   |   /   \   |   |
-|   |   \___/   |   |
-|    \  /   \  /    |
-|     \/_____\/     |
-|                   |
-|___________________|""")
+        loginStatus = pad(userName, 11) + "  A"
+        loginStatus = yellow(loginStatus)
+    option = input("> ")
+
+    print(""" __________________
+| ________________ |""")
+    print("|| " + green("New Game     N ") + "||")
+    print("||                ||")
+    print("|| " + blue("Difficulty   D") + " ||")
+    print("||                ||")
+    print(f"|| {loginStatus} ||")
+    print("""||________________||)
+| jpod             |
+|       ______     |
+|      /\    /\    |
+|     /  \__/  \   |
+|    |   /  \   |  |
+|    |   \__/   |  |
+|     \  /  \  /   |
+|      \/____\/    |
+|                  |
+|__________________|
+""")
 
 while run:
     RunLoop
