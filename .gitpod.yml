@@ -3,3 +3,7 @@ tasks:
       echo 'TODO: build project'
     command: |
       echo 'TODO: start app'
+  - init: |
+      pip install simple_chalk
+    command: |
+      pip install simple_chalk
