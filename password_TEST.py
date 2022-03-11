@@ -1,41 +1,29 @@
-# import csv
-# from getpass import getpass, getuser
+import os
+import time
+from getpass import getpass, getuser
+import json
+from simple_chalk import green, red
 
-# supplied_username = input("username > ")
+#print(red(usernames)) # DEBUG
 
-# if supplied_username not in open("Login.txt"):
-#     print("Youre Not in my list")
-#     # do you want to register?
-#     # if not check password
+def createUser():
+    global accounts
+    password_valid =False
+    new_username = input("New Username \n> ")
+    while not password_valid:
+        new_password = input("New password \n> ")
+        os.system("clear")
+        confirm_pwds = input("Confirm Password \n> ")
+        os.system("clear")
+        if new_password != confirm_pwds:
+            print(red("Passwords don't match. Try again."))
+            time.sleep(1)
+            os.system("clear")
+        else:
+            accounts[new_username] = confirm_pwds
+            password_valid = True
+            with open("accounts.json","w") as f:
+                json.dump(accounts,f)
+            usernames.append(new_username)
 
-# else:
-#     Login = True
 
-#!python3
- 
-print("Welcome...")
-welcome = input("Do you have an acount? y/n: ")
-if welcome == "n":
-    while True:
-        username  = input("Enter a username:")
-        password  = input("Enter a password:")
-        password1 = input("Confirm password:")
-        if password == password1:
-            file = open(username+".txt", "w")
-            file.write(username+":"+password)
-            file.close()
-            welcome = "y"
-            break
-        print("Passwords do NOT match!")
- 
-if welcome == "y":
-    while True:
-        login1 = input("Login:")
-        login2 = input("Password:")
-        file = open(login1+".txt", "r")
-        data   = file.readline()
-        file.close()
-        if data == login1+":"+login2:
-            print("Welcome")
-            break
-        print("Incorrect username or password.")
