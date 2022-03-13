@@ -1,6 +1,7 @@
 from simple_chalk import *
 
-
+loginStatus = red("Log In       L")
+loginStatus = input(green("Username > "))
 
 def menu():
     login = bool(input(red("Login > ")))
@@ -33,3 +34,25 @@ def menu():
 |                  |
 |__________________|
 """)
+
+userScreen = f"""
+ __________________
+| ________________ |
+|| {green("New Game     N ")}||
+||                ||
+|| {blue("Difficulty   D")} ||
+||                ||
+|| {yellow(loginStatus)} ||
+||________________||
+| jpod             |
+|       ______     |
+|      /\    /\    |
+|     /  \__/  \   |
+|    |   /  \   |  |
+|    |   \__/   |  |
+|     \  /  \  /   |
+|      \/____\/    |
+|                  |
+|__________________|
+"""
+print(userScreen)
