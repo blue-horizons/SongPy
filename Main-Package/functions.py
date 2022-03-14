@@ -52,14 +52,90 @@ def pad(string, max_, paddingChar=" "):
 
 def createUser():
     password_valid =False
-    new_username = input("New Username \n> ")
+    print(f"""
+ __________________
+| ________________ |
+||                ||
+|| {blue("New Username")}   ||
+||                ||
+||                ||
+||                ||
+||________________||
+| jpod             |
+|       ______     |
+|      /\    /\    |
+|     /  \__/  \   |
+|    |   /  \   |  |
+|    |   \__/   |  |
+|     \  /  \  /   |
+|      \/____\/    |
+|                  |
+|__________________|""")
+    new_username = input("> ")
     while not password_valid:
-        new_password = input("New password \n> ")
         clearAll()
-        confirm_pwds = input("Confirm Password \n> ")
+        print(f"""
+ __________________
+| ________________ |
+||                ||
+|| {blue("New Password")}   ||
+||                ||
+||                ||
+||                ||
+||________________||
+| jpod             |
+|       ______     |
+|      /\    /\    |
+|     /  \__/  \   |
+|    |   /  \   |  |
+|    |   \__/   |  |
+|     \  /  \  /   |
+|      \/____\/    |
+|                  |
+|__________________|""")
+        new_password = input("> ")
+        clearAll()
+        print(f"""
+ __________________
+| ________________ |
+||                ||
+|| {blue("Confirm")}        ||
+|| {blue("Password")}       ||
+||                ||
+||                ||
+||________________||
+| jpod             |
+|       ______     |
+|      /\    /\    |
+|     /  \__/  \   |
+|    |   /  \   |  |
+|    |   \__/   |  |
+|     \  /  \  /   |
+|      \/____\/    |
+|                  |
+|__________________|""")
+        confirm_pwds = input("> ")
         clearAll()
         if new_password != confirm_pwds:
-            print(red("Passwords don't match. Try again."))
+            print(f"""
+ __________________
+| ________________ |
+||                ||
+|| {red("Passwords dont")} ||
+|| {red("match.")}         ||
+|| {red("Try Again")}      ||
+||                ||
+||________________||
+| jpod             |
+|       ______     |
+|      /\    /\    |
+|     /  \__/  \   |
+|    |   /  \   |  |
+|    |   \__/   |  |
+|     \  /  \  /   |
+|      \/____\/    |
+|                  |
+|__________________|""")
             time.sleep(1)
             clearAll()
         else:
@@ -94,6 +170,7 @@ def login():
 |__________________|""")
         username = input("U > ")
         if username not in usernames:
+            clearAll()
             print(f"""
  __________________
 | ________________ |
@@ -113,32 +190,13 @@ def login():
 |      \/____\/    |
 |                  |
 |__________________|""")
-            time.sleep(1)
-            clearAll()
-            print(f"""
- __________________
-| ________________ |
-||                ||
-|| Do you want to ||
-|| create a new   ||
-|| account?       ||
-||            {yellow("y/N")} ||
-||________________||
-| jpod             |
-|       ______     |
-|      /\    /\    |
-|     /  \__/  \   |
-|    |   /  \   |  |
-|    |   \__/   |  |
-|     \  /  \  /   |
-|      \/____\/    |
-|                  |
-|__________________|""")
             newUser = input("> ")
             if newUser.lower() == "y":
+                clearAll()
                 createUser()
             else:
-                quit()
+                clearAll()
+                break
         else:
             valid_user = True
 

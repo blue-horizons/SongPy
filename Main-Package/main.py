@@ -44,12 +44,12 @@ userScreen = f"""
 
 
 # File Opening
-json_file = open("accounts.json")
+json_file = open("Main-Package/users.json")
 accounts = json.load(json_file)
 for i in accounts.keys():
     usernames.append(i)
 
-songList = open("songs.csv","r")
+songList = open("Main-Package/songs.csv","r")
 
 #######################
 # FUNCTIONS WERE HERE #
