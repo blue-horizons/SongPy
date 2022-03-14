@@ -1,10 +1,3 @@
-import json
-import os
-from random import randint
-import time
-from sys import platform
-
-from simple_chalk import *
 
 # Globals
 
@@ -14,19 +7,28 @@ global usernames
 global songList
 global clear
 
+import json
+import os
+import time
+from random import randint
+from sys import platform
+
 # Sets clear command to `clear` if MacOS or Linux, or `cls` if Windows
 if platform == "linux" or platform == "linux2" or platform == "darwin":
     clear = "clear"
 elif platform == "win32":
     clear = "cls"
 
+os.system("pip install simple_chalk") # Installs simple_chalk library
+os.system(clear)
+
+from simple_chalk import *
+
+
 # Starting Variables
 valid_user = False
 valid_pwd = False
 usernames = []
-
-
-
 
 ###############################################################
 
@@ -231,37 +233,3 @@ def set_ans():
     return output
     
 
-def jpod(line1message,line2message="",line3message="",line4message="",line5message=""): # Set colours to variables first 
-    messages = []
-    messages.append(line1message)
-
-    if len(line1message) > 14:
-        string = string[0:14]
-        
-
-        
-    elif len(string) < max_:
-        padding = max_ - len(string)
-        for i in range(0,padding):
-            string += " "
-    return string
-
-    jpod = f"""
- __________________
-| ________________ |
-|| {line1message} ||
-|| {line2message} ||
-|| {line3message} ||
-|| {line4message} ||
-|| {line5message} ||
-||________________||
-| jpod             |
-|       ______     |
-|      /\    /\    |
-|     /  \__/  \   |
-|    |   /  \   |  |
-|    |   \__/   |  |
-|     \  /  \  /   |
-|      \/____\/    |
-|                  |
-|__________________|"""

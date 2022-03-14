@@ -13,9 +13,10 @@ song title are displayed.
 - The user has two chances to guess the name of the song. 
 - If the user guesses the answer correctly the first time, they score 3 points. ∙ If the user guesses the answer correctly the second time, they score 1 point. The  game repeats. 
 - The game ends when a player guesses the song name incorrectly the second  time.  
-  Only authorised players can play the game.  
-  Where appropriate, input from the user should be validated.  
-**Design, write, test and refine a system that: **
+Only authorised players can play the game.  
+Where appropriate, input from the user should be validated.  
+
+#### Design, write, test and refine a system that: 
 1. Allows a player to enter their details, which are then authenticated to ensure that  they are an authorised player. 
 2. Stores a list of song names and artists in an external file. 
 3. Selects a song from the file, displaying the artist and the first letter of each word of  the song title. 

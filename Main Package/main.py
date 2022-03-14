@@ -3,6 +3,8 @@
 from imports import *
 from functions import *
 
+
+
 # Globals
 
 global json_file
@@ -42,7 +44,7 @@ userScreen = f"""
 
 
 # File Opening
-json_file = open('accounts.json')
+json_file = open("accounts.json")
 accounts = json.load(json_file)
 for i in accounts.keys():
     usernames.append(i)

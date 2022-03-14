@@ -8,3 +8,6 @@ from getpass import getpass, getuser
 from sys import platform
 
 from simple_chalk import blue, green, magenta, red, yellow
+
+from functions import *
+
