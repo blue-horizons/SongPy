@@ -41,8 +41,6 @@ userScreen = f"""
 """
 
 
-
-
 # File Opening
 json_file = open("Main-Package/users.json")
 accounts = json.load(json_file)
