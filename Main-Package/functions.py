@@ -1,7 +1,6 @@
 
 # Globals
 
-global json_file
 global accounts
 global usernames
 global songList
@@ -12,7 +11,7 @@ from imports import *
 
 # Open `accounts.csv`
 
-        
+songList = open("Main-Package/songs.csv","r")
 
 # Starting Variables
 valid_user = False
@@ -22,16 +21,18 @@ accounts = []
 passwords = []
 
 
-with open("Main-Package/accounts.csv", "r") as f:
-    reader = csv.reader(f)
-    var = list(reader)
-    for i in range(1,len(var)):
-        usernames.append(var[i][0])
-        passwords.append(var[i][1])
-
 ###############################################################
 
 # Functions
+
+def setFile():
+    with open("Main-Package/accounts.csv", "r") as f:
+        reader = csv.reader(f)
+        var = list(reader)
+        for i in range(1,len(var)):
+            usernames.append(var[i][0])
+            passwords.append(var[i][1])
+
 
 def setClear():
     # Sets clear command to `clear` if on MacOS or Linux, 
@@ -62,100 +63,35 @@ def pad(string, max_, paddingChar=" "):
 
 def createUser():
     password_valid =False
-    print(f"""
- __________________
-| ________________ |
-||                ||
-|| {blue("New Username")}   ||
-||                ||
-||                ||
-||                ||
-||________________||
-| jpod             |
-|       ______     |
-|      /\    /\    |
-|     /  \__/  \   |
-|    |   /  \   |  |
-|    |   \__/   |  |
-|     \  /  \  /   |
-|      \/____\/    |
-|                  |
-|__________________|""")
+    print("New Username")
     new_username = input("> ")
     while not password_valid:
         clearAll()
-        print(f"""
- __________________
-| ________________ |
-||                ||
-|| {blue("New Password")}   ||
-||                ||
-||                ||
-||                ||
-||________________||
-| jpod             |
-|       ______     |
-|      /\    /\    |
-|     /  \__/  \   |
-|    |   /  \   |  |
-|    |   \__/   |  |
-|     \  /  \  /   |
-|      \/____\/    |
-|                  |
-|__________________|""")
+        print("New Password")
         new_password = input("> ")
         clearAll()
-        print(f"""
- __________________
-| ________________ |
-||                ||
-|| {blue("Confirm")}        ||
-|| {blue("Password")}       ||
-||                ||
-||                ||
-||________________||
-| jpod             |
-|       ______     |
-|      /\    /\    |
-|     /  \__/  \   |
-|    |   /  \   |  |
-|    |   \__/   |  |
-|     \  /  \  /   |
-|      \/____\/    |
-|                  |
-|__________________|""")
+        print("Confirm Password")
         confirm_pwds = input("> ")
         clearAll()
         if new_password != confirm_pwds:
-            clearAll()
-            print(f"""
- __________________
-| ________________ |
-||                ||
-|| {red("Passwords dont")} ||
-|| {red("match.")}         ||
-|| {red("Try Again")}      ||
-||                ||
-||________________||
-| jpod             |
-|       ______     |
-|      /\    /\    |
-|     /  \__/  \   |
-|    |   /  \   |  |
-|    |   \__/   |  |
-|     \  /  \  /   |
-|      \/____\/    |
-|                  |
-|__________________|""")
+            print("passwords dont match")
             time.sleep(1)
             clearAll()
         else:
-            accounts[new_username] = confirm_pwds
             password_valid = True
-            with open("accounts.csv","a") as f:
-                f.write(f"{new_username},{new_password}")
+            newCreds = [new_username,new_password]
+            with open("Main-Package/accounts.csv","a") as f:
+                f.write(f"\n{new_username},{new_password}")
 
 def login():
+    with open("Main-Package/accounts.csv", "r") as f:
+        passwords = []
+        usernames = []
+        reader = csv.reader(f)
+        var = list(reader)
+        for i in range(1,len(var)):
+            usernames.append(var[i][0])
+            passwords.append(var[i][1])
     valid_user = False
     valid_pwd = False
 
@@ -216,9 +152,9 @@ def login():
  __________________
 | ________________ |
 || {bold("LOG IN:")}        ||
-|| UserName:      ||
+|| {bold("Username:")}      ||
 || {green(pad(username,14,paddingChar="█"))} ||
-|| Pwd:           ||
+|| {bold("Password:")}      ||
 || ██████████████ ||
 ||________________||
 | jpod             |
@@ -232,7 +168,7 @@ def login():
 |                  |
 |__________________|""")
                 password = input("> ")
-                if password != passes[users.index(username)]:
+                if password != passwords[usernames.index(username)]:
                     print(f"""
  __________________
 | ________________ |
@@ -258,134 +194,10 @@ def login():
                     print("Correct Password")
                     valid_pwd = True
                     loginStatus = username
-
-# def login(): 
-#     valid_user = False
-#     valid_pwd = False
-#     while not valid_user:
-#         print(f"""
-#  __________________
-# | ________________ |
-# || {bold("LOG IN:")}        ||
-# || UserName:      ||
-# || ██████████████ ||
-# || Pwd:           ||
-# || ██████████████ ||
-# ||________________||
-# | jpod             |
-# |       ______     |
-# |      /\    /\    |
-# |     /  \__/  \   |
-# |    |   /  \   |  |
-# |    |   \__/   |  |
-# |     \  /  \  /   |
-# |      \/____\/    |
-# |                  |
-# |__________________|""")
-#         username = input("U > ")
-#         if username not in usernames:
-#             clearAll()
-#             print(f"""
-#  __________________
-# | ________________ |
-# || {red("Your account")}   ||
-# || {red("doesn't exist.")} ||
-# || Create a new   ||
-# || one?           ||
-# ||            {yellow("y/N")} ||
-# ||________________||
-# | jpod             |
-# |       ______     |
-# |      /\    /\    |
-# |     /  \__/  \   |
-# |    |   /  \   |  |
-# |    |   \__/   |  |
-# |     \  /  \  /   |
-# |      \/____\/    |
-# |                  |
-# |__________________|""")
-#             newUser = input("> ")
-#             if newUser.lower() == "y":
-#                 clearAll()
-#                 createUser()
-#             else:
-#                 clearAll()
-#                 break
-#         else:
-#             valid_user = True
-
-#     while not valid_pwd:
-#         clearAll()
-#         print(f"""
-#  __________________
-# | ________________ |
-# || {bold("LOG IN:")}        ||
-# || UserName:      ||
-# || {green(pad(username,14,paddingChar="█"))} ||
-# || Pwd:           ||
-# || ██████████████ ||
-# ||________________||
-# | jpod             |
-# |       ______     |
-# |      /\    /\    |
-# |     /  \__/  \   |
-# |    |   /  \   |  |
-# |    |   \__/   |  |
-# |     \  /  \  /   |
-# |      \/____\/    |
-# |                  |
-# |__________________|""")
-#         # print("Username")
-#         # print("> " + green(username))
-#         # print("P > ")
-#         password = input("P > ")
-#         if  password != accounts.get(username):
-#             print(f"""
-#  __________________
-# | ________________ |
-# ||                ||
-# || {red("Incorrect")}      ||
-# || {red("Password.")}      ||
-# || {red("Try Again.")}     ||
-# ||                ||
-# ||________________||
-# | jpod             |
-# |       ______     |
-# |      /\    /\    |
-# |     /  \__/  \   |
-# |    |   /  \   |  |
-# |    |   \__/   |  |
-# |     \  /  \  /   |
-# |      \/____\/    |
-# |                  |
-# |__________________|""")
-#             time.sleep(1)
-#             clearAll()
-#         else:
-#             valid_pwd = True
-#             clearAll()
-#             print(f"""
-#  __________________
-# | ________________ |
-# ||                ||
-# || {green("Correct")}      ||
-# || {green("Password.")}      ||
-# ||                ||
-# ||   {brightGreen("LOGGED  IN")}   ||
-# ||________________||
-# | jpod             |
-# |       ______     |
-# |      /\    /\    |
-# |     /  \__/  \   |
-# |    |   /  \   |  |
-# |    |   \__/   |  |
-# |     \  /  \  /   |
-# |      \/____\/    |
-# |                  |
-# |__________________|""")
+                    break
 
 def set_ans():
-    with open("songs.csv", "r"):
+    with open("Main-Package/songs.csv", "r"):
         randomLine = random.randint(1,max(songList))
         songAns_pick = randomLine[1]
     for i in range(0, len(songAns_pick)):

@@ -45,20 +45,8 @@ userScreen = f"""
 """
 
 
-# File Opening
-json_file = open("Main-Package/users.json")
-accounts = json.load(json_file)
-for i in accounts.keys():
-    usernames.append(i)
 
 #######################
-
-# Opening accounts
-
-# with open("Main-Package/accounts.csv",'r') as data:
-#     for line in csv.reader(data):
-#         accounts.append[line]
-# print(red(accounts))
 
 songList = open("Main-Package/songs.csv","r")
 
@@ -84,8 +72,6 @@ while menu:
         print(green("Running Login... "))
         clearAll()
         login() # Runs login Screen
-
-
 
 while runGame:
     print(set_ans())
