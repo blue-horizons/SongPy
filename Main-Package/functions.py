@@ -6,35 +6,45 @@ global accounts
 global usernames
 global songList
 global clear
+global passwords
 
-import json
-import os
-import time
-from random import randint
-from sys import platform
+from imports import *
 
-# Sets clear command to `clear` if MacOS or Linux, or `cls` if Windows
-if platform == "linux" or platform == "linux2" or platform == "darwin":
-    clear = "clear"
-elif platform == "win32":
-    clear = "cls"
+# Open `accounts.csv`
 
-os.system("pip install simple_chalk") # Installs simple_chalk library
-os.system(clear)
-
-from simple_chalk import *
-
+        
 
 # Starting Variables
 valid_user = False
 valid_pwd = False
 usernames = []
+accounts = []
+passwords = []
+
+
+with open("Main-Package/accounts.csv", "r") as f:
+    reader = csv.reader(f)
+    var = list(reader)
+    for i in range(1,len(var)):
+        usernames.append(var[i][0])
+        passwords.append(var[i][1])
 
 ###############################################################
 
 # Functions
+
+def setClear():
+    # Sets clear command to `clear` if on MacOS or Linux, 
+    #   or `cls` if on Windows
+    if platform == "linux" or platform == "linux2" or platform == "darwin":
+        clear = "clear"
+    elif platform == "win32":
+        clear = "cls"
+    return clear
+
+
 def clearAll():
-    os.system(clear) # Clears Terminal
+    os.system(setClear()) # Clears Terminal
 
 def pad(string, max_, paddingChar=" "):
     # Pads a string with a certain amount of 
@@ -117,6 +127,7 @@ def createUser():
         confirm_pwds = input("> ")
         clearAll()
         if new_password != confirm_pwds:
+            clearAll()
             print(f"""
  __________________
 | ________________ |
@@ -141,21 +152,22 @@ def createUser():
         else:
             accounts[new_username] = confirm_pwds
             password_valid = True
-            with open("accounts.json","w") as f:
-                json.dump(accounts,f)
-            usernames.append(new_username)
+            with open("accounts.csv","a") as f:
+                f.write(f"{new_username},{new_password}")
 
-def login(): 
+def login():
     valid_user = False
     valid_pwd = False
+
     while not valid_user:
+        clearAll()
         print(f"""
  __________________
 | ________________ |
 || {bold("LOG IN:")}        ||
-|| UserName:      ||
+|| {bold("Username:")}      ||
 || ██████████████ ||
-|| Pwd:           ||
+|| {bold("Password:")}      ||
 || ██████████████ ||
 ||________________||
 | jpod             |
@@ -168,13 +180,13 @@ def login():
 |      \/____\/    |
 |                  |
 |__________________|""")
-        username = input("U > ")
+        username = input("> ")
+        clearAll()
         if username not in usernames:
-            clearAll()
             print(f"""
  __________________
 | ________________ |
-|| {red("Your account")}   ||
+|| {red("This account")}   ||
 || {red("doesn't exist.")} ||
 || Create a new   ||
 || one?           ||
@@ -190,19 +202,17 @@ def login():
 |      \/____\/    |
 |                  |
 |__________________|""")
-            newUser = input("> ")
-            if newUser.lower() == "y":
-                clearAll()
+            choice = input("> ")
+            clearAll()
+            if choice.lower() == "y":
                 createUser()
             else:
-                clearAll()
-                break
-        else:
-            valid_user = True
+                valid_user = False
 
-    while not valid_pwd:
-        clearAll()
-        print(f"""
+        else:
+            while not valid_pwd:
+                clearAll()
+                print(f"""
  __________________
 | ________________ |
 || {bold("LOG IN:")}        ||
@@ -221,12 +231,9 @@ def login():
 |      \/____\/    |
 |                  |
 |__________________|""")
-        # print("Username")
-        # print("> " + green(username))
-        # print("P > ")
-        password = input("P > ")
-        if  password != accounts.get(username):
-            print(f"""
+                password = input("> ")
+                if password != passes[users.index(username)]:
+                    print(f"""
  __________________
 | ________________ |
 ||                ||
@@ -245,30 +252,137 @@ def login():
 |      \/____\/    |
 |                  |
 |__________________|""")
-            time.sleep(1)
-            clearAll()
-        else:
-            valid_pwd = True
-            clearAll()
-            print(f"""
- __________________
-| ________________ |
-||                ||
-|| {green("Correct")}      ||
-|| {green("Password.")}      ||
-||                ||
-||   {brightGreen("LOGGED  IN")}   ||
-||________________||
-| jpod             |
-|       ______     |
-|      /\    /\    |
-|     /  \__/  \   |
-|    |   /  \   |  |
-|    |   \__/   |  |
-|     \  /  \  /   |
-|      \/____\/    |
-|                  |
-|__________________|""")
+                    time.sleep(3)
+                    clearAll()
+                else:
+                    print("Correct Password")
+                    valid_pwd = True
+                    loginStatus = username
+
+# def login(): 
+#     valid_user = False
+#     valid_pwd = False
+#     while not valid_user:
+#         print(f"""
+#  __________________
+# | ________________ |
+# || {bold("LOG IN:")}        ||
+# || UserName:      ||
+# || ██████████████ ||
+# || Pwd:           ||
+# || ██████████████ ||
+# ||________________||
+# | jpod             |
+# |       ______     |
+# |      /\    /\    |
+# |     /  \__/  \   |
+# |    |   /  \   |  |
+# |    |   \__/   |  |
+# |     \  /  \  /   |
+# |      \/____\/    |
+# |                  |
+# |__________________|""")
+#         username = input("U > ")
+#         if username not in usernames:
+#             clearAll()
+#             print(f"""
+#  __________________
+# | ________________ |
+# || {red("Your account")}   ||
+# || {red("doesn't exist.")} ||
+# || Create a new   ||
+# || one?           ||
+# ||            {yellow("y/N")} ||
+# ||________________||
+# | jpod             |
+# |       ______     |
+# |      /\    /\    |
+# |     /  \__/  \   |
+# |    |   /  \   |  |
+# |    |   \__/   |  |
+# |     \  /  \  /   |
+# |      \/____\/    |
+# |                  |
+# |__________________|""")
+#             newUser = input("> ")
+#             if newUser.lower() == "y":
+#                 clearAll()
+#                 createUser()
+#             else:
+#                 clearAll()
+#                 break
+#         else:
+#             valid_user = True
+
+#     while not valid_pwd:
+#         clearAll()
+#         print(f"""
+#  __________________
+# | ________________ |
+# || {bold("LOG IN:")}        ||
+# || UserName:      ||
+# || {green(pad(username,14,paddingChar="█"))} ||
+# || Pwd:           ||
+# || ██████████████ ||
+# ||________________||
+# | jpod             |
+# |       ______     |
+# |      /\    /\    |
+# |     /  \__/  \   |
+# |    |   /  \   |  |
+# |    |   \__/   |  |
+# |     \  /  \  /   |
+# |      \/____\/    |
+# |                  |
+# |__________________|""")
+#         # print("Username")
+#         # print("> " + green(username))
+#         # print("P > ")
+#         password = input("P > ")
+#         if  password != accounts.get(username):
+#             print(f"""
+#  __________________
+# | ________________ |
+# ||                ||
+# || {red("Incorrect")}      ||
+# || {red("Password.")}      ||
+# || {red("Try Again.")}     ||
+# ||                ||
+# ||________________||
+# | jpod             |
+# |       ______     |
+# |      /\    /\    |
+# |     /  \__/  \   |
+# |    |   /  \   |  |
+# |    |   \__/   |  |
+# |     \  /  \  /   |
+# |      \/____\/    |
+# |                  |
+# |__________________|""")
+#             time.sleep(1)
+#             clearAll()
+#         else:
+#             valid_pwd = True
+#             clearAll()
+#             print(f"""
+#  __________________
+# | ________________ |
+# ||                ||
+# || {green("Correct")}      ||
+# || {green("Password.")}      ||
+# ||                ||
+# ||   {brightGreen("LOGGED  IN")}   ||
+# ||________________||
+# | jpod             |
+# |       ______     |
+# |      /\    /\    |
+# |     /  \__/  \   |
+# |    |   /  \   |  |
+# |    |   \__/   |  |
+# |     \  /  \  /   |
+# |      \/____\/    |
+# |                  |
+# |__________________|""")
 
 def set_ans():
     with open("songs.csv", "r"):
