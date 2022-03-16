@@ -37,11 +37,11 @@ def jpod(line1message,line2message="",line3message="",line4message="",line5messa
     jpod = f"""
  __________________
 | ________________ |
-|| {outMessages[0]} ||
-|| {line2message} ||
-|| {line3message} ||
-|| {line4message} ||
-|| {line5message}{scrollNeeded}||
+||                ||
+||                ||
+||                ||
+||                ||
+||                ||
 ||________________||
 | jpod             |
 |       ______     |

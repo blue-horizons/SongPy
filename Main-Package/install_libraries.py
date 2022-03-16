@@ -1,6 +1,13 @@
 import os
-from functions import setClear
+from sys import platform
+
+if platform == "linux" or platform == "linux2" or platform == "darwin":
+    clear = "clear"
+elif platform == "win32":
+    clear = "cls"
+
+
 os.system("pip install --upgrade pip")
 os.system("pip install simple_chalk")
 
-os.system(setClear())
+os.system(clear)
