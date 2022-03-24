@@ -90,3 +90,6 @@ def colour_256(string, num): # `num` must be 0 >= 255
     num = str(num)
     return u"\u001b[38;5;" + num + "m " + string + normalise()
     
+# TO ADD:
+# - BACKGROUND COLOURS
+# https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
