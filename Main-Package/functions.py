@@ -8,11 +8,16 @@ global username
 global songList
 global clear
 global passwords
+global screenWidth
 
 
-# Open `accounts.csv`
+# Open `songs.csv`
 
 songList = open("Main-Package/songs.csv", "r")
+
+
+
+# 
 
 # Starting Variables
 valid_user = False
@@ -20,6 +25,7 @@ valid_pwd = False
 usernames = []
 accounts = []
 passwords = []
+screenWidth = 38
 
 
 ###############################################################
@@ -42,6 +48,8 @@ def setSong():
             songs.append(var[i][0])
             artists.append(var[i][1])
 
+def pause(length):
+    time.sleep(length)
 
 def setClear():
     # Sets clear command to `clear` if on MacOS or Linux,
@@ -57,22 +65,8 @@ def clearAll():
     os.system(setClear())  # Clears Terminal
 
 
-def pad(string, max_, paddingChar=" "):
-    # Pads a string with a certain amount of
-    # characters, or truncuates the string to
-    # a certain length.
-
-    max_ = int(max_)
-    if len(string) > max_:
-        string = string[0:max_]
-    elif len(string) < max_:
-        padding = max_ - len(string)
-        for i in range(0, padding):
-            string += " "
-    return string
-
 def set_ans():
-    
+    songAns_pick = (songs)
     for i in range(0, len(songAns_pick)):
 
         if songAns_pick[i] == " ":
