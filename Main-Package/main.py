@@ -186,10 +186,9 @@ def login():
                 clearAll()
                 print(jPod(bold(yellow("Enter Password: "))))
                 password = input("> ")
+                clearAll()
                 if password != passwords[usernames.index(username)]:
-                    for i in range(0,10):
-                        for i in loadingIcons:
-                            clearAll()
+                    
                     print(jPod(bold(red("INCORRECT PASSWORD")), line3 = pad(yellow("Try Again"),align="r")))
                     clearAll()
                     return False
