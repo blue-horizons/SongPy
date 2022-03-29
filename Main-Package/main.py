@@ -41,35 +41,6 @@ def pad(string, max_=screenWidth, paddingChar=" ",alignment="l"):
         for i in range(0, padding):
             string += " "
     return string
-
-# def pad(string,maxLength=screenWidth,padChar=" ",alignment="l"):
-#     stringLength = len(string)
-#     padding = ""
-#     outputString = ""
-
-#     if stringLength < maxLength:
-#         difference = maxLength - stringLength
-        
-#         for i in range(0,difference):
-#             padding += padChar
-
-#         if alignment.lower() == "l":
-#             outputString += string + padding
-#         elif alignment.lower() == "r":
-#             outputString += padding + string
-#         elif alignment.lower() == "c":
-#             if difference % 2 == 1:
-#                 padL = difference/2 + 0.5
-#                 padR = difference/2 - 0.5
-#             else:
-#                 padL = difference/2 
-#                 padR = difference/2
-#             outputString += padL + string + padR
-
-#     elif stringLength > maxLength:
-#         outputString += string[0,maxLength]
-    
-#     return outputString
         
 def jPod(line1,line2=" ",line3=" ",line4=" ",line5=" ",line6=" ",line7=" ",line8=" ",line9=" ",line10=" ",genAlign="left",print_=False):
     lines = []
@@ -151,12 +122,15 @@ def userScreen(login_status):
     return jPod(line1,line2,line3,line4,line5,line6,line7,line8,line9,line10)
 
 def scoreBoard():
-    with open("accounts.csv","r") as scores:
-        reader = csv.reader(f)
+    usernames = []
+    scores = []
+
+    with open("Main-Package/accounts.csv","r") as scores:
+        reader = csv.reader(scores)
         var = list(reader)
         for i in range(1, len(var)):
-            usernames.append(var[i][0])
-            scores.append(var[i][3])
+            usernames.append((var[i])[0])
+            scores.append((var[i])[3])
     
     lines = []
     for i in range(1, len(usernames)):
