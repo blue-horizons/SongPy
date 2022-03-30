@@ -1,11 +1,18 @@
 import random
 import csv
 from os import system as command
-from simple_chalk import *
+# from simple_chalk import *
+
+lives = "♥ ♥ ♥"
+
+def green(string):
+    return u"\u001b[32m" + string + u"\u001b[0m"
+def red(string):
+    return u"\u001b[31m" + string + u"\u001b[0m"
 
 game = True
 
-with open("Tests/songs.csv") as f:
+with open("songs.csv") as f:
     artists = []
     songNames = []
     reader = csv.reader(f)
@@ -35,23 +42,23 @@ def chooseSong():
     output = [picked_song,picked_artist,output_song]
     return output
 
-command("clear")
+command("cls")
 
 while game == True:
-    print(123456)
+    command("cls")
+
     lifeNum = 3
     score = 0
 
     output = chooseSong()
     picked_song = output[0].lower()
 
-    print(f"""Lives: {lifeNum}
+    print(f"""Lives: {lives}
     Score: {score}
     Guess the song: 
     "{output[2]}" by {output[1]}
     """)
     guess = input("> ").lower()
-    # command("clear")
     if guess == picked_song:
         print(green("Correct Song!"))
         if lifeNum == 3:
@@ -61,7 +68,13 @@ while game == True:
         
     elif guess != picked_song:
         print(red("Incorrect Song"))
-        lifeNum = lifeNum - 1
-    if lifeNum == 0:
-        game = False
-    
+        if lives == "♥ ♥ ♥":
+            lives = "♥ ♥"
+        elif lives == "♥ ♥":
+            lives = "♥"
+        elif lives == "♥":
+            lives = ""
+            break
+
+print(red("GAME OVER"))
+
