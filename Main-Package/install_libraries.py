@@ -8,6 +8,6 @@ elif platform == "win32":
 
 
 os.system("pip install --upgrade pip")
-os.system("pip install simple_chalk")
+os.system("pip install colourpy")
 
 os.system(clear)
