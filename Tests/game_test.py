@@ -12,7 +12,7 @@ def red(string):
 
 game = True
 
-with open("songs.csv") as f:
+with open("Tests/songs.csv") as f:
     artists = []
     songNames = []
     reader = csv.reader(f)
@@ -29,17 +29,9 @@ def chooseSong():
 
     output_song = ""
 
-    count = 0
-    song_words = picked_song.split()
-    for i in song_words:
-        if count == 0:
-            output_song += i
-        elif i == " ":
-            output_song += " " + i
-            count += 1
-        else:
-            output_song += "_"
-        count += 1
+    song = picked_song
+
+    output_song = (" ".join(word[0] + "_"*(len(word)-1) for word in song.split()))
     
     output = [picked_song,picked_artist,output_song]
     return output
