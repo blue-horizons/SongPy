@@ -15,6 +15,7 @@ with open("Tests/songs.csv") as f:
         artists.append(var[i][1])
 
 def chooseSong():
+    song_words = []
     randNum = random.randint(0, len(songNames))
     picked_song = songNames[randNum]
     picked_artist = artists[randNum]
@@ -22,7 +23,8 @@ def chooseSong():
     output_song = ""
 
     count = 0
-    for i in picked_song:
+    song_words = picked_song.split()
+    for i in song_words:
         if count == 0:
             output_song += i
         elif i == " ":
@@ -35,7 +37,6 @@ def chooseSong():
     output = [picked_song,picked_artist,output_song]
     return output
 
-command("clear")
 
 while game == True:
     print(123456)
