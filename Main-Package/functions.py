@@ -1,7 +1,15 @@
+# IMPORTS
+import csv
+import json
+import os
+import random
+import time
+from getpass import getpass, getuser
+from sys import platform
+import colours
 
-# Globals
+# GLOBALS
 
-from imports import *
 global accounts
 global usernames
 global username
@@ -14,10 +22,6 @@ global screenWidth
 # Open `songs.csv`
 
 songList = open("Main-Package/songs.csv", "r")
-
-
-
-# 
 
 # Starting Variables
 valid_user = False

@@ -1,8 +1,16 @@
 # Imports
 
-from imports import *
 from functions import *
 
+import csv
+import json
+import os
+import random
+import time
+from getpass import getpass, getuser
+from sys import platform
+from colours import *
+from functions import *
 
 # Globals
 
@@ -26,9 +34,27 @@ loginState = False
 loginStatus = "LOG IN "
 battery = green("▊▊▊")
 screenWidth = 38
-loadingIcons = ["|","/","—","\\","—"]
+loadingIcons = ["|", "/", "—", "\\", "—"]
 
-def pad(string, max_=screenWidth, paddingChar=" ",alignment="l"):
+
+def chooseSong():
+    song_words = []
+    randNum = random.randint(0, len(songNames)-1)
+    picked_song = songNames[randNum]
+    picked_artist = artists[randNum]
+
+    output_song = ""
+
+    song = picked_song
+
+    output_song = (" ".join(word[0] + "_"*(len(word)-1)
+                   for word in song.split()))
+
+    output = [picked_song, picked_artist, output_song]
+    return output
+
+
+def pad(string, max_=screenWidth, paddingChar=" ", alignment="l"):
     # Pads a string with a certain amount of
     # characters, or truncuates the string to
     # a certain length.
@@ -41,12 +67,13 @@ def pad(string, max_=screenWidth, paddingChar=" ",alignment="l"):
         for i in range(0, padding):
             string += " "
     return string
-        
-def jPod(line1,line2=" ",line3=" ",line4=" ",line5=" ",line6=" ",line7=" ",line8=" ",line9=" ",line10=" ",genAlign="left",print_=False):
+
+
+def jPod(line1, line2=" ", line3=" ", line4=" ", line5=" ", line6=" ", line7=" ", line8=" ", line9=" ", line10=" ", genAlign="left", print_=False):
     lines = []
     outLines = []
 
-    empty_space = "                              " # END
+    empty_space = "                              "  # END
 
     lines.append(line1)
     lines.append(line2)
@@ -99,16 +126,15 @@ def jPod(line1,line2=" ",line3=" ",line4=" ",line5=" ",line6=" ",line7=" ",line8
 """
     if print_ == False:
         return jpod
-    else: 
+    else:
         print(jpod)
-
-# USERSCREEN
 
 # UserScreen Interface
 
+
 def userScreen(login_status):
-    login_status = pad(loginStatus,14)
-    
+    login_status = pad(loginStatus, 14)
+
     line1 = bold("NEW GAME")
     line2 = pad(bold("> N "))
     line3 = bold("CREATE ACCOUNT")
@@ -116,32 +142,32 @@ def userScreen(login_status):
     line5 = bold(login_status)
     line6 = pad(bold("> L "))
     line7 = bold("SCOREBOARD")
-    line8 = pad(bold("> S "),alignment="r")
+    line8 = pad(bold("> S "), alignment="r")
     line9 = bold("RESET")
-    line10 = pad(bold("> R "),alignment="r")
-    return jPod(line1,line2,line3,line4,line5,line6,line7,line8,line9,line10)
+    line10 = pad(bold("> R "), alignment="r")
+    return jPod(line1, line2, line3, line4, line5, line6, line7, line8, line9, line10)
+
 
 def scoreBoard():
     usernames = []
     scores = []
 
-    with open("Main-Package/accounts.csv","r") as scores:
+    with open("Main-Package/accounts.csv", "r") as scores:
         reader = csv.reader(scores)
         var = list(reader)
         for i in range(1, len(var)):
             usernames.append((var[i])[0])
             scores.append((var[i])[3])
-    
+
     lines = []
     for i in range(1, len(usernames)):
         lines.append(f"{i}|{pad(usernames[i])}|{pad(scores[i])}")
 
-    jPod(lines[0],lines[1],lines[3],lines[4],lines[5],lines[6],lines[7],lines[8],lines[9],print_=True)
-    
+    jPod(lines[0], lines[1], lines[3], lines[4], lines[5],
+         lines[6], lines[7], lines[8], lines[9], print_=True)
 
 
 #######################
-
 
 songList = open("Main-Package/songs.csv", "r")
 
@@ -188,16 +214,18 @@ def login():
                 password = input("> ")
                 clearAll()
                 if password != passwords[usernames.index(username)]:
-                    
-                    print(jPod(bold(red("INCORRECT PASSWORD")), line3 = pad(yellow("Try Again"),align="r")))
+
+                    print(jPod(bold(red("INCORRECT PASSWORD")),
+                          line3=pad(yellow("Try Again"), align="r")))
                     clearAll()
                     return False
                 else:
                     clearAll()
-                    print(jPod(green("Correct Password"),line4=blue("Logged In")))
+                    print(jPod(green("Correct Password"), line4=blue("Logged In")))
                     valid_pwd = True
                     return True
                     break
+
 
 def createUser():
     password_valid = False
@@ -208,16 +236,18 @@ def createUser():
         print(jPod(blue("New Password")))
         new_password = input("> ")
         clearAll()
-        jPod(yellow("Confirm Password"),genAlign="c",print_=True)
+        jPod(yellow("Confirm Password"), genAlign="c", print_=True)
         confirm_pwds = input("> ")
         clearAll()
         if new_password != confirm_pwds:
-            for i in range(0,40):
+            for i in range(0, 40):
                 clearAll()
-                jPod(red(Bold("Passwords don't match")), line6=yellow(bold("Try Again")))
+                jPod(red(Bold("Passwords don't match")),
+                     line6=yellow(bold("Try Again")))
                 time.sleep(0.1)
                 clearAll()
-                jPod(bgRed(Bold("Passwords don't match")), line6=bgYellow(bold("Try Again")))
+                jPod(bgRed(Bold("Passwords don't match")),
+                     line6=bgYellow(bold("Try Again")))
                 time.sleep(0.1)
             clearAll()
         else:
@@ -231,6 +261,7 @@ def createUser():
 
 # MAIN CODE
 
+
 # Menu Loop
 menu = True
 while menu:
@@ -238,22 +269,23 @@ while menu:
     print(userScreen(loginStatus))
     choice = input("> ")
 
-    if choice.lower() == "n": # New Game
+    if choice.lower() == "n":  # New Game
         clearAll()
         if loginState != True:
-            jPod("Sorry, You're not logged in.",line5="Create an account or login",print_=True)
+            jPod("Sorry, You're not logged in.",
+                 line5="Create an account or login", print_=True)
             pause(5)
         else:
-            jPod(green("Running New Game... "),print_=True)
+            jPod(green("Running New Game... "), print_=True)
             menu = False
             runGame = True
             break
 
-    elif choice.lower() == "c": # Create New Account
-        jPod(yellow("Creating New Account..."),print_=True)
+    elif choice.lower() == "c":  # Create New Account
+        jPod(yellow("Creating New Account..."), print_=True)
         createUser()
 
-    elif choice.lower() == "l": # Log in/ Log out.
+    elif choice.lower() == "l":  # Log in/ Log out.
 
         print(green("Running Login... "))
         clearAll()
@@ -274,61 +306,38 @@ while menu:
 
 
 while runGame:
-    print(set_ans())
-    while wrongAns != 2:
-        for i in range(0, 1):
-            input(guess)
-            if guess != answer:
-                correctGuess = False
-                wrongAns += 1
-                if wrongAns == 2:
-                    jPod(red("Too many guesses"))
-                    clearAll()
-                    jPod()
-                    break
 
+    while game == True:
+        lifeNum = 3
+        score = 0
+
+        output = chooseSong()
+        picked_song = output[0].lower()
+
+        jPod(f"Score:    {score}", line7="Guess the Song:",
+             line8=f"{output[2]}", line9=f" by {output[1]}", print_=True)
+        guess = input("> ").lower()
+
+        if guess == picked_song:
+            jPod("", line5=green(output[0]), line6=green("Correct!"))
+            if lifeNum == 3:
+                score += 2
             else:
-                correctGuess = True
-                i += 1
-                if i == 0:
-                    score += 3
-                elif i == 1:
-                    score += 1
+                score += 1
+
+        elif guess != picked_song:
+            jPod(red("Incorrect Song"))
+            time.sleep(sleep)
+            clearAll()
+            if battery == "▊▊▊":
+                battery = "▊▊ "
+            elif battery == "▊▊ ":
+                battery = "▊  "
+            elif battery == "▊  ":
+                battery = "   "
+                break
+
+    jPod(red("GAME OVER"))
+    time.sleep(sleep)
 
     rungame = False
-
-
-"""
-╭────────────────────────────────────╮
-│ ╭────────────────────────────────╮ │
-│ │             jPod          ▊▊▊] │ │
-│ ├────────────────────────────────┤ │
-│ │      ████  ███  █   █ █████    │ │
-│ │     █     █   █ ██ ██ █        │ │
-│ │     █  ██ █   █ █ █ █ ████     │ │
-│ │     █   █ █████ █ █ █ █        │ │
-│ │      ████ █   █ █   █ █████    │ │
-│ │                                │ │
-│ │      ███  █   █ █████ ████     │ │
-│ │     █   █ █   █ █     █   █    │ │
-│ │     █   █  █ █  ████  ████     │ │
-│ │     █   █  █ █  █     █  █     │ │
-│ │      ███    █   █████ █   █    │ │
-│ ╰────────────────────────────────╯ │
-│  jPod                              │
-│                                    │
-│           _____________            │
-│          /\    MENU    /\          │
-│         /  \          /  \         │
-│        /    \        /    \        │
-│       |      \______/      |       │
-│       |      /      \      |       │
-│       |  ◄◄ |        | ►►  |       │
-│       |      \______/      |       │
-│       |      /      \      |       │
-│        \    /        \    /        │
-│         \  /  ► / ||  \  /         │
-│          \/____________\/          │
-│                                    │
-│                                    │
-╰────────────────────────────────────╯"""
