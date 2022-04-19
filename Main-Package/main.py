@@ -35,6 +35,7 @@ loginStatus = "LOG IN "
 battery = green("▊▊▊")
 screenWidth = 38
 loadingIcons = ["|", "/", "—", "\\", "—"]
+game = True
 
 
 def chooseSong():
@@ -169,7 +170,14 @@ def scoreBoard():
 
 #######################
 
-songList = open("Main-Package/songs.csv", "r")
+with open("Main-Package/songs.csv") as f:
+    artists = []
+    songNames = []
+    reader = csv.reader(f)
+    var = list(reader)
+    for i in range(1, len(var)):
+        songNames.append(var[i][0])
+        artists.append(var[i][1])
 
 # Starting Variables
 valid_user = False
@@ -242,11 +250,11 @@ def createUser():
         if new_password != confirm_pwds:
             for i in range(0, 40):
                 clearAll()
-                jPod(red(Bold("Passwords don't match")),
+                jPod(red(bold("Passwords don't match")),
                      line6=yellow(bold("Try Again")))
                 time.sleep(0.1)
                 clearAll()
-                jPod(bgRed(Bold("Passwords don't match")),
+                jPod(bgRed(bold("Passwords don't match")),
                      line6=bgYellow(bold("Try Again")))
                 time.sleep(0.1)
             clearAll()
@@ -278,7 +286,7 @@ while menu:
         else:
             jPod(green("Running New Game... "), print_=True)
             menu = False
-            runGame = True
+            game = True
             break
 
     elif choice.lower() == "c":  # Create New Account
@@ -305,37 +313,36 @@ while menu:
         pause(3)
 
 
-while runGame:
 
-    while game == True:
-        lifeNum = 3
-        score = 0
+while game == True:
+    lifeNum = 3
+    score = 0
 
-        output = chooseSong()
-        picked_song = output[0].lower()
+    output = chooseSong()
+    picked_song = output[0].lower()
 
-        jPod(f"Score:    {score}", line7="Guess the Song:",
-             line8=f"{output[2]}", line9=f" by {output[1]}", print_=True)
-        guess = input("> ").lower()
+    jPod(f"Score:    {score}", line7="Guess the Song:",
+            line8=f"{output[2]}", line9=f" by {output[1]}", print_=True)
+    guess = input("> ").lower()
 
-        if guess == picked_song:
-            jPod("", line5=green(output[0]), line6=green("Correct!"))
-            if lifeNum == 3:
-                score += 2
-            else:
-                score += 1
+    if guess == picked_song:
+        jPod("", line5=green(output[0]), line6=green("Correct!"))
+        if lifeNum == 3:
+            score += 2
+        else:
+            score += 1
 
-        elif guess != picked_song:
-            jPod(red("Incorrect Song"))
-            time.sleep(sleep)
-            clearAll()
-            if battery == "▊▊▊":
-                battery = "▊▊ "
-            elif battery == "▊▊ ":
-                battery = "▊  "
-            elif battery == "▊  ":
-                battery = "   "
-                break
+    elif guess != picked_song:
+        jPod(red("Incorrect Song"))
+        time.sleep(sleep)
+        clearAll()
+        if battery == "▊▊▊":
+            battery = "▊▊ "
+        elif battery == "▊▊ ":
+            battery = "▊  "
+        elif battery == "▊  ":
+            battery = "   "
+            break
 
     jPod(red("GAME OVER"))
     time.sleep(sleep)
