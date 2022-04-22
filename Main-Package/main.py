@@ -70,7 +70,7 @@ def pad(string, max_=screenWidth, paddingChar=" ", alignment="l"):
     return string
 
 
-def jPod(line1, line2=" ", line3=" ", line4=" ", line5=" ", line6=" ", line7=" ", line8=" ", line9=" ", line10=" ", genAlign="left", print_=False):
+def jPod(line1, line2=" ", line3=" ", line4=" ", line5=" ", line6=" ", line7=" ", line8=" ", line9=" ", genAlign="left", print_=False):
     lines = []
     outLines = []
 
@@ -85,27 +85,48 @@ def jPod(line1, line2=" ", line3=" ", line4=" ", line5=" ", line6=" ", line7=" "
     lines.append(line7)
     lines.append(line8)
     lines.append(line9)
-    lines.append(line10)
 
+    # count = 0
+
+    # while count <= 9:
+    #     for z in lines[count]:
+    #         if len(z) < 32:
+    #             difference = 32 - len(z)
+    #             padding = ""
+    #             for a in range(0, difference):
+    #                 padding += " "
+    #         output = lines[count] + padding
+    #         outLines.append(output)
+    #     count += 1
+    count = 0
     for i in lines:
-        outLines.append(pad(i))
+        if str(lines[0]) == " ":
+            outLines.append(empty_space)
+        else:
+            if len(i) < 32:
+                difference = 32 - len(i)
+                padding = ""
+                for b in range(0,difference):
+                    padding += " "
+            out_string = i + padding
+            outLines.append(out_string)
 
     # Usable Width = 30
     jpod = f"""
 ╭────────────────────────────────────╮
 │ ╭────────────────────────────────╮ │
-│ │              jPod        │{battery}] │ │
+│ │              jPod         {battery}] │ │
 │ ├────────────────────────────────┤ │
-│ │ {outLines[0]} │ │
-│ │ {outLines[1]} │ │
-│ │ {outLines[2]} │ │
-│ │ {outLines[3]} │ │
-│ │ {outLines[4]} │ │
-│ │ {outLines[5]} │ │
-│ │ {outLines[6]} │ │
-│ │ {outLines[7]} │ │
-│ │ {outLines[8]} │ │
-│ │ {outLines[9]} │ │
+│ │{outLines[0]}│ │
+│ │{outLines[1]}│ │
+│ │{outLines[2]}│ │
+│ │{outLines[3]}│ │
+│ │{outLines[4]}│ │
+│ │{outLines[5]}│ │
+│ │{outLines[6]}│ │
+│ │{outLines[7]}│ │
+│ │{outLines[8]}│ │
+│ │{outLines[9]}│ │
 │ ╰────────────────────────────────╯ │
 │  jPod                              │
 │                                    │
